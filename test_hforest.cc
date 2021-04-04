@@ -6,9 +6,15 @@
 #include "hforest.hh"
 #include "htree.hh"
 
-HTree::tree_ptr_t create_test_tree_small(){
+HTree::tree_ptr_t create_test_tree_smallest(){
 // Creates a tree with only a root node
-  return std::make_shared<HTree>(3,5);
+	return std::make_shared<HTree>(0,1);
+}
+
+HTree::tree_ptr_t create_test_tree_small(){
+// Creates a tree with only a root node and a child
+  return std::make_shared<HTree>(3,5,
+			 std::make_shared<HTree>(4,6));
 }
 
 HTree::tree_ptr_t create_test_tree_medium(){
@@ -51,20 +57,26 @@ void test_add_tree( HForest::forest_ptr_t forest){
 
 
 void test_pop(HForest::forest_ptr_t forest){
- assert(HForest().pop_tree()== nullptr); //check that popping empty forest does nothing
+
+	assert(HForest().pop_tree()== nullptr); //check that popping empty forest does nothing
+
  auto large_tree = create_test_tree_large(); //tree with a known large root
  forest->add_tree(large_tree);
- assert(forest->pop_tree()==large_tree); // tests popping on single tree, checks pointer returned corrrect
- assert(forest->size() == 2); // checks that size has decreased
 
- auto other_large_tree = create_test_tree_large();
+ auto smallest_tree = create_test_tree_smallest();
+ forest->add_tree(smallest_tree);
+
+ assert(forest->pop_tree()==smallest_tree); // tests popping on single tree, checks pointer returned correctly
+ assert(forest->size() == 3); // checks that size has decreased
+
+ auto other_smallest_tree = create_test_tree_smallest();
  auto small_tree = create_test_tree_small();
- forest->add_tree(large_tree); //re add old tree
- forest->add_tree(small_tree); //smaller tree sandwhiched in between
- forest->add_tree(other_large_tree); //another large tree, identical to large_tree
+ forest->add_tree(smallest_tree); //re add old tree
+ forest->add_tree(small_tree); //bigger tree sandwiched in between
+ forest->add_tree(other_smallest_tree); //another smallest tree, identical to smallest_tree
  //checking if there are two nodes of the same size which it deletes
- assert(forest->pop_tree()==other_large_tree); //check that it deletes the most recently added tree
- assert(forest->pop_tree()==large_tree); //check that it deletes the large tree, and not the small tree in between
+ assert(forest->pop_tree()==other_smallest_tree); //check that it deletes the most recently added tree
+ assert(forest->pop_tree()==smallest_tree); //check that it deletes the large tree, and not the small tree in between
 
 }
 

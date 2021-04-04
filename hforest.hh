@@ -27,7 +27,7 @@ class HForest{
 
 	void add_tree(HTree::tree_ptr_t tree) ;  // Take a pointer to an HTree (of type HTree::tree_ptr_t) and add it to the forest
 
-    HTree::tree_ptr_t pop_tree(); //  Return a pointer to the HTree with the highest value in the root node, and remove it from the forest.
+    HTree::tree_ptr_t pop_tree(); //  Return a pointer to the HTree with the LOWEST value in the root node, and remove it from the forest.
 
 };
 
