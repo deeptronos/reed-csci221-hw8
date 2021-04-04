@@ -12,7 +12,7 @@
 static bool
 compare_trees(HForest::tree_t t1, HForest::tree_t t2)
 {
-  return t1->get_value() < t2->get_value();
+  return t1->get_value() > t2->get_value(); // Modified to make heap prioritize leafs with smallest values!
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -22,7 +22,9 @@ HForest::add_tree(tree_t tree)
 {
   trees_.push_back(tree);
   std::push_heap(trees_.begin(), trees_.end(), compare_trees);
+
 }
+
 // For Debug:
 void tree_print(std::vector<HTree::tree_ptr_t> myTrees, std::string descriptor){
 
@@ -34,28 +36,19 @@ void tree_print(std::vector<HTree::tree_ptr_t> myTrees, std::string descriptor){
 
 }
 
-//////////////////////////////////////////////////////////////////////////////
-// Return the tree with the highest frequency count (and remove it from forest)
+
+//// Return the tree with the lowest frequency count (and remove it from forest)
 HForest::tree_t
 HForest::pop_top()
 {
-  if (trees_.empty()) {
-    return nullptr;
-  }
+	if (trees_.empty()) {
+		return nullptr;
+	}
 
-  tree_print(trees_, "Before weird code: ");
+	std::pop_heap(trees_.begin(), trees_.end(), compare_trees);
+	auto ret = trees_.back();
+	trees_.pop_back();
 
-  //std::pop_heap(trees_.begin(), trees_.end(), compare_trees);
-  std::reverse(trees_.begin(), trees_.end()); // Reverse trees_ so that the tree with the lowest frequency count is first
-  std::pop_heap(trees_.begin(), trees_.end(), compare_trees); // Pop that tree from trees_
-  auto ret = trees_.back();
-
-  trees_.pop_back();
-
-  std::reverse(trees_.begin() + 1, trees_.end()); // Put trees_ back in heap order - The first element will be the largest at this point due to pop_heap, but the rest of the vector will still be reversed. Thus, we must reverse everything past begin().
-
-  tree_print(trees_, "After weird code: ");
-
-  return ret;
+	return ret;
 }
 

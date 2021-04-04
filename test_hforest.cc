@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cassert>
 
+
 HForest create_test_forest()
 {
   HForest forest;
@@ -25,14 +26,18 @@ void test_forest()
 {
   auto forest = create_test_forest();
   assert(forest.size() == 7);
-  //std::cout << forest.pop_top()->get_value() << std::endl;
+
   assert(forest.pop_top()->get_value() == 5);
-  assert(forest.pop_top()->get_value() == 40);
-  assert(forest.pop_top()->get_value() == 40);
-  assert(forest.pop_top()->get_value() == 30);
-  assert(forest.pop_top()->get_value() == 20);
-  assert(forest.pop_top()->get_value() == 10);
   assert(forest.pop_top()->get_value() == 6);
+  assert(forest.pop_top()->get_value() == 10);
+  assert(forest.pop_top()->get_value() == 20);
+  assert(forest.pop_top()->get_value() == 30);
+  assert(forest.pop_top()->get_value() == 40);
+  assert(forest.pop_top()->get_value() == 40);
+
+
+
+
 
   assert(forest.size() == 0);
   assert(forest.pop_top() == nullptr);
