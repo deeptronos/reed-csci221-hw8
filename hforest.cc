@@ -1,61 +1,61 @@
+/*
+ * HForest: a class to represent a collection of HTrees, each with an
+ * associated value (inverse priority).
+ * Implemented using the STL's make_heap.
+ */
 #include <iostream>
+#include <algorithm>
 #include "hforest.hh"
 
-
-bool compare_trees(HTree::tree_ptr_t t1, HTree::tree_ptr_t t2) {  // Eitan's compare_trees() function
-    return t1->get_value() < t2->get_value();
+//////////////////////////////////////////////////////////////////////////////
+// Comparator function for std::*_heap
+static bool
+compare_trees(HForest::tree_t t1, HForest::tree_t t2)
+{
+  return t1->get_value() < t2->get_value();
 }
 
-HForest::HForest() {    //  Initialization when HForest is created without a tree in the arguments
-
+//////////////////////////////////////////////////////////////////////////////
+// Add a single tree to the forest:
+void
+HForest::add_tree(tree_t tree)
+{
+  trees_.push_back(tree);
+  std::push_heap(trees_.begin(), trees_.end(), compare_trees);
 }
+// For Debug:
+void tree_print(std::vector<HTree::tree_ptr_t> myTrees, std::string descriptor){
 
-
-HForest::HForest(HTree::tree_ptr_t firstForestTree) {   // Initialization when HForest is created with a tree in the arguments
-    add_tree(firstForestTree);
-}
-
-
-HForest::size_t HForest::size() const{  // Return how many trees are in the forest
-    return size_;
-}
-
-
-HTree::tree_ptr_t HForest::pop_tree(){ //  Return a pointer to the HTree with the LOWEST value in the root node, and remove it from the forest.
-
-
-    if(size_ == 0){ //  Don't execute any more of pop_tree() if size is 0
-        return nullptr;
-    }
-
-    // The forest will, presumably, already have its entries in heap order, since add_tree() runs make_heap() after adding a new tree to entries. Thus, the tree with the lowest-value root node will be the last entry.
-    HTree::tree_ptr_t minRootNode       = entries.back();   // dereference the desired root node
-    entries.erase(entries.end() - 1);
-
-    size_ = size_ -1;
-    return minRootNode;
-}
-
-void HForest::add_tree(HTree::tree_ptr_t tree) {    //  add_tree: pushes 'tree' onto the back of entries, sorts entries into a heap, increments size
-    entries.push_back(tree);
-    std::cout << "Before make_heap(): ";
-    for(auto entry:entries){
-    	std::cout << "( "<< entry->get_key() << ", " << entry->get_value() << "), ";
-    }
-	std::cout << std::endl;
-
-    std::make_heap(entries.begin(), entries.end(), compare_trees);
-
-	std::cout << "After make_heap(): ";
-	for(auto entry:entries){
-		std::cout << "( "<< entry->get_key() << ", " << entry->get_value() << "), ";
+	std::cout << descriptor;
+	for(HTree::tree_ptr_t currTree:myTrees){
+		std::cout<< "(" << currTree->get_key() << ", " << currTree->get_value() << "), ";
 	}
 	std::cout << std::endl;
 
-    size_ = size_ + 1;
 }
 
+//////////////////////////////////////////////////////////////////////////////
+// Return the tree with the highest frequency count (and remove it from forest)
+HForest::tree_t
+HForest::pop_top()
+{
+  if (trees_.empty()) {
+    return nullptr;
+  }
 
+  tree_print(trees_, "Before weird code: ");
 
+  //std::pop_heap(trees_.begin(), trees_.end(), compare_trees);
+  std::reverse(trees_.begin(), trees_.end()); // Reverse trees_ so that the tree with the lowest frequency count is first
+  std::pop_heap(trees_.begin(), trees_.end(), compare_trees); // Pop that tree from trees_
+  auto ret = trees_.back();
 
+  trees_.pop_back();
+
+  std::reverse(trees_.begin() + 1, trees_.end()); // Put trees_ back in heap order - The first element will be the largest at this point due to pop_heap, but the rest of the vector will still be reversed. Thus, we must reverse everything past begin().
+
+  tree_print(trees_, "After weird code: ");
+
+  return ret;
+}
 

@@ -1,35 +1,32 @@
-//Store trees in list, organize list with make_heap
+/*
+ * HForest: a class to represent a collection of HTrees, each with an
+ * associated priority (lower value is higher priority)
+ */
 
 #pragma once
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 #include "htree.hh"
 
-#pragma once
-
-class HForest{
-
+class HForest {
  public:
-    using size_t = int;
-	using forest_ptr_t = std::shared_ptr<HForest>;
+  using tree_t = HTree::tree_ptr_t;
 
-    size_t size_ {0};   //  size_ is incremented/decremented whenever the respective operation (addition/removal) occurs on entries, so that we don't add the complexity of calling .size() on entries
-    std::vector<HTree::tree_ptr_t> entries;
+  // Initialize with no trees:
+  HForest() = default;
+  ~HForest() = default;
 
-	//Initialization:
-	HForest(HTree::tree_ptr_t firstForestTree); // Create a new HForest, with firstForestTree as the first entry in it
-	HForest();  // Default forest: no entries
-	~HForest() = default;
+  // Return the number of trees in the forest:
+  int size() const { return trees_.size(); }
 
-    size_t size() const;  // Return how many tree_ptr_t are in the forest
+  // Add a single tree to the forest:
+  void add_tree(tree_t);
 
-	void add_tree(HTree::tree_ptr_t tree) ;  // Take a pointer to an HTree (of type HTree::tree_ptr_t) and add it to the forest
+  // Return the tree with the highest priority (and remove it from forest)
+  tree_t pop_top();
 
-    HTree::tree_ptr_t pop_tree(); //  Return a pointer to the HTree with the LOWEST value in the root node, and remove it from the forest.
-
+ private:
+  std::vector<tree_t> trees_;
 };
-
-
-
