@@ -5,53 +5,48 @@
 #include "htree.hh"
 #include <cassert>
 
-
 using namespace std;
 
-
+// Create an elaborate example test tree:
 HTree::tree_ptr_t create_test_tree()
 {
-  return make_shared<HTree>(126, 1,
-		 make_shared<HTree>(1,5, 
-			  make_shared<HTree>(9,8), 
-			  make_shared<HTree>(30,2)),
-		  make_shared<HTree>(12,40,
-			  make_shared<HTree>(9,8,
-				  make_shared<HTree>(85, 2)),
-			  make_shared<HTree>(13,12)));
+  return
+    make_shared<HTree>(126, 1,
+      make_shared<HTree>(-5, 2,
+        make_shared<HTree>(12, 3),
+        make_shared<HTree>(6, 4,
+          make_shared<HTree>(9, 5))),
+      make_shared<HTree>(12, 6,
+        make_shared<HTree>(3, 7)));
 }
 
-void test_get_child(const HTree::tree_ptr_t root){
-  assert(root->get_child(HTree::Direction::LEFT)==root->left_); //Test left
-  assert(root->get_child(HTree::Direction::RIGHT)->get_child(HTree::Direction::LEFT)==root->right_->left_); //Test right then left
-}
-
-void test_path_to(const HTree::tree_ptr_t root)
+void test_htree(const HTree::tree_ptr_t root)
 {
-  assert(*(root->path_to(126)) == HTree::path_t({ })); //testing path to root
-  assert(*(root->path_to(1)) == HTree::path_t{HTree::Direction::LEFT} ); //test with singular depth
-  assert(*(root->path_to(9)) == (HTree::path_t{HTree::Direction::LEFT, HTree::Direction::LEFT}) ); //test where there are duplicates
-  assert(root->path_to(1000) == nullptr); //Testing path to a non existent item
-}
+  using path_t = HTree::path_t;
+  const auto L = HTree::Direction::LEFT;
+  const auto R = HTree::Direction::RIGHT;
 
-void test_get_key(const HTree::tree_ptr_t root){
-  assert(root->get_key()==126); //testing get key on root
-  assert(root->get_child(HTree::Direction::LEFT)->get_key()==1); // testing get key on a left child 
-  
-}
+  assert(*(root->path_to(126)) == path_t({ }));
+  assert(*(root->path_to(-5)) == path_t({ L }));
+  assert(*(root->path_to(9)) == path_t({ L, R, L }));
+  assert(*(root->path_to(3)) == path_t({ R, L }));
+  assert(*(root->path_to(12)) == path_t({ L, L }));
+  assert(root->path_to(54) == nullptr);
 
-void test_get_val(const HTree::tree_ptr_t root){
-  assert(root->get_value()==1); //testing get key on root
-  assert(root->get_child(HTree::Direction::RIGHT)->get_value()==40); // testing get key on a right child 
+  assert(root->get_child(L)->get_key() == -5);
+  assert(root->get_child(L)->get_child(L)->get_key() == 12);
+  assert(root->get_child(L)->get_child(L)->get_child(L) == nullptr);
+  assert(root->get_child(L)->get_child(L)->get_child(R) == nullptr);
+  assert(root->get_child(L)->get_child(R)->get_key() == 6);
+  assert(root->get_child(L)->get_child(R)->get_child(L)->get_key() == 9);
+  assert(root->get_child(R)->get_child(R) == nullptr);
 }
 
 int main()
 {
   auto root = create_test_tree();
-  test_get_child(root);
-  test_path_to(root);
-  test_get_key(root);
-  test_get_val(root);
+  test_htree(root);
+
   return 0;
 }
 
