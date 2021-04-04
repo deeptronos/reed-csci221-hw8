@@ -41,6 +41,9 @@ class HTree {
     return (dir == Direction::LEFT)? left_ : right_;
   }
 
+  void updateValue(int newValue){
+  	value_ = newValue;
+  }
   // Return a pointer to a list of directions from root to
   // a node of a given key.
   // If key not contained in this tree, returns nullptr
@@ -50,7 +53,5 @@ class HTree {
   value_t value_;
   tree_ptr_t left_;
   tree_ptr_t right_;
-
-
-
+  
 };
