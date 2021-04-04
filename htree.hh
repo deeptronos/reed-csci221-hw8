@@ -46,9 +46,11 @@ class HTree {
   // If key not contained in this tree, returns nullptr
   possible_path_t path_to(key_t key) const;
 
- private:
   key_t key_;
   value_t value_;
   tree_ptr_t left_;
   tree_ptr_t right_;
+
+
+
 };
