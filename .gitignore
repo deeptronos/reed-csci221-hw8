@@ -34,3 +34,5 @@
 .idea
 cmake-build-debug
 CMakeLists.txt
+test_hforest
+test_htree
