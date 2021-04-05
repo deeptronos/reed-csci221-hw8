@@ -41,7 +41,7 @@ class HTree {
 
   // Return the child of this node indicated by dir.
   // If the child is nullptr (current node is a leaf), returns nullptr.
-  tree_ptr_t get_child(Direction dir) const
+  tree_ptr_t get_child(Direction dir)
   {
     return (dir == Direction::LEFT)? left_ : right_;
   }
@@ -50,7 +50,7 @@ class HTree {
   // Return a pointer to a list of directions from root to
   // a node of a given key.
   // If key not contained in this tree, returns nullptr
-  possible_path_t path_to(key_t key) const;
+  possible_path_t path_to(key_t key);
 
   key_t key_;
   value_t value_;
