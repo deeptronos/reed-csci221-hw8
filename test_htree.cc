@@ -42,11 +42,17 @@ void test_htree(const HTree::tree_ptr_t root)
   assert(root->get_child(R)->get_child(R) == nullptr);
 }
 
+void testUpdateValue(const HTree::tree_ptr_t root){
+	HTree::value_t newVal = 72;
+	root->updateValue(newVal);
+	assert(root->get_value() == newVal);
+}
+
 int main()
 {
   auto root = create_test_tree();
   test_htree(root);
-
+  testUpdateValue(root);
   return 0;
 }
 

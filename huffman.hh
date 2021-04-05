@@ -1,4 +1,4 @@
-/*
+	/*
  * Huffman: a class to encode and decode symbols based on adaptive Huffman coding
  * https://en.wikipedia.org/wiki/Huffman_coding
  */
@@ -8,9 +8,13 @@
 #include <climits>
 #include <vector>
 
-#include "htree.hh"
+#include "hforest.hh"
 
 class Huffman {
+ private:
+	HForest myForest;
+	HTree::tree_ptr_t myTreePtr;
+
  public:
   // Maximum number of symbols we need to encode (a symbol fits in a char) + EOF
   static const int ALPHABET_SIZE = (1 << CHAR_BIT) + 1;  // (2 ** 8) + 1

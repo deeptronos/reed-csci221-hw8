@@ -41,7 +41,7 @@ class HTree {
     return (dir == Direction::LEFT)? left_ : right_;
   }
 
-  void updateValue(int newValue){
+  void updateValue(int newValue){ // Updates the HTree's value property to whatever was passed as newValue
   	value_ = newValue;
   }
   // Return a pointer to a list of directions from root to
@@ -53,5 +53,5 @@ class HTree {
   value_t value_;
   tree_ptr_t left_;
   tree_ptr_t right_;
-  
+
 };
