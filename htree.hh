@@ -10,7 +10,7 @@
 
 class HTree {
  public:
-  using tree_ptr_t = std::shared_ptr<const HTree>;
+  using tree_ptr_t = std::shared_ptr<HTree>;
   enum class Direction { LEFT, RIGHT };
   using path_t = std::list<Direction>;
   using possible_path_t = std::unique_ptr<path_t>;
@@ -34,6 +34,11 @@ class HTree {
   // Return value in current node
   uint64_t get_value() const { return value_; }
 
+  void setValue(const int& newVal){ // Updates the HTree's value property to whatever was passed as newValue
+  	//value_++;
+  	value_ = newVal;
+  }
+
   // Return the child of this node indicated by dir.
   // If the child is nullptr (current node is a leaf), returns nullptr.
   tree_ptr_t get_child(Direction dir) const
@@ -41,9 +46,7 @@ class HTree {
     return (dir == Direction::LEFT)? left_ : right_;
   }
 
-  void updateValue(int newValue){ // Updates the HTree's value property to whatever was passed as newValue
-  	value_ = newValue;
-  }
+
   // Return a pointer to a list of directions from root to
   // a node of a given key.
   // If key not contained in this tree, returns nullptr
