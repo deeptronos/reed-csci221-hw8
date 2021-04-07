@@ -1,5 +1,7 @@
 #include <stdexcept>
 
+#include "bitio.hh"
+
 BitIO::BitIO(std::ostream* os, std::istream* is) {
 
     // Throw errors if inputs are invalid
