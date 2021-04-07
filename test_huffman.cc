@@ -13,7 +13,7 @@ void test_encode()
 {
   Huffman huff;
 
-  auto bits = huff.encode('a');
+  auto bits = huff.encode('a'); // 4/7 - fails these tests bc encode() isnt actually putting every symbol into the tree with frequencies of 0
   assert(bits.size() > CHAR_BIT);
 
   bits = huff.encode('b');

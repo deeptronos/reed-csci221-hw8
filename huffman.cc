@@ -21,6 +21,14 @@
  * At this point, your forest includes a single HTree, which is your Huffman tree.
 */
 
+HForest initSymbolForest(int size){
+	HForest initForest;
+	for(int currSymbol = 0; currSymbol <= size; ++currSymbol){
+		initForest.add_tree(HTree::tree_ptr_t(new HTree(currSymbol, 0)));
+	}
+	return initForest;
+}
+
 // UNTESTED
 HForest breakTree(HTree::tree_ptr_t tree){ // Takes a hierarchical tree and turns it into a non-hierarchical forest
 	HForest newForest;
