@@ -20,6 +20,7 @@
     * Merge them as the left and right nodes of a new HTree node. The key in the new tree is a new, fake "symbol" (you can use negative keys for these, or values > 257, but the former is simpler). The value of the new tree is the sum of the values of its two subtree.
  * At this point, your forest includes a single HTree, which is your Huffman tree.
 */
+
 //Return a bits_t sequence of bits translated from the passed HTree::path_t
 Huffman::bits_t pathToBits(const HTree::path_t& path){
 	Huffman::bits_t pathBits;
@@ -34,7 +35,6 @@ Huffman::bits_t pathToBits(const HTree::path_t& path){
 	return pathBits; //pathBits now contains booleans which correspond to the passed path_t path!
 }
 
-
 // Creates a forest full of "leaves" (unconnected tree nodes) that have key_'s which correspond to 0 through int size
 HForest initSymbolForest(int size){
 	HForest initForest;
@@ -44,8 +44,8 @@ HForest initSymbolForest(int size){
 	return initForest;
 }
 
-// UNTESTED
-HForest breakTree(HTree::tree_ptr_t tree){ // Takes a hierarchical tree and turns it into a non-hierarchical forest
+// Takes a hierarchical tree and turns it into a non-hierarchical forest
+HForest breakTree(HTree::tree_ptr_t tree){
 	HForest newForest;
 	HTree::tree_ptr_t currLeaf = tree;
 
@@ -75,31 +75,34 @@ HForest breakTree(HTree::tree_ptr_t tree){ // Takes a hierarchical tree and turn
 	return newForest;
 }
 
-// UNTESTED
-HTree::tree_ptr_t buildTree(HForest forest){ // Takes a non-hierarchical forest and turns it into a hierarchical tree
-	// PROBLEM: pop_top always pops the organization nodes (bc they have key = -1?)
+// Takes a non-hierarchical forest and turns it into a hierarchical tree
+HTree::tree_ptr_t buildTree(HForest& forest){
 
-	while(forest.size() != 1){ // Iterate until the forest has a single tree in it:
+	std::shared_ptr<HTree> treeNav(nullptr); // a pointer we can use for traversing myTree, since we wanna keep track of the root to return it at the end of the function.
 
-		// Find the top-two HTrees in the forest (those who have the lowest frequency count):
-		HTree::tree_ptr_t treeOne = forest.pop_top();
-		HTree::tree_ptr_t treeTwo = forest.pop_top();
+	while(forest.size() > 0){
+		if(treeNav == nullptr){ // base case
+			// Find the top-two HTrees in the forest (those who have the lowest frequency count):
+			HTree::tree_ptr_t treeOne = forest.pop_top();
+			HTree::tree_ptr_t treeTwo = forest.pop_top();
+			HTree::value_t newVal = treeOne->get_value() + treeTwo->get_value(); // The value of the new tree is the sum of the values of its two subtree.
 
-		HTree::value_t newVal = treeOne->get_value() + treeTwo->get_value(); // The value of the new tree is the sum of the values of its two subtree.
+			treeNav = HTree::tree_ptr_t(new HTree(-1, newVal, treeOne, treeTwo)); // Move treeNav to point to a new organizational HTree, with treeOne and treeTwo as its left_ and right_, respectively.
+		}else{
+			HTree::tree_ptr_t topTree = forest.pop_top(); // Pop the HTree with the lowest frequency count
+			treeNav = HTree::tree_ptr_t(new HTree(-1, (treeNav->value_ + topTree->value_), treeNav, topTree)); // Move treeNav to point to a new organizational HTree, which has a value equal to the sum of a its subtrees, and whose subtrees are topTree and the HTree pointed to by the previous treeNav
+		}
 
-		// Merge them as the left and right nodes of a new HTree node. The key in the new tree is a new, fake "symbol".
-		forest.add_tree(HTree::tree_ptr_t(new HTree(-1, newVal, treeOne, treeTwo))); // "Organization leaves" have keys of -1
 	}
 
-	HTree::tree_ptr_t huffmanTree = forest.pop_top(); // Now, there is only one tree in the forest - our new Huffman tree!
-	assert(forest.size() == 0); // Make sure that the forest is empty tho
-	return huffmanTree;
+	assert(forest.size() == 0);
+	return treeNav;
+
 }
 
-// MOSTLY UNTESTED
 Huffman::bits_t Huffman::encode(int symbol){
 	if(myForest.size() == 0 && myTreePtr == nullptr){ // Base case: we have an empty forest, and we haven't assembled a tree
-		//myForest.add_tree(HTree::tree_ptr_t(new HTree(symbol, 1))); // Add a new tree to the forest.
+
 		myForest = initSymbolForest(ALPHABET_SIZE); // create a new forest full of symbol nodes with frequencies of 0
 
 		myTreePtr = buildTree(myForest); // Build tree.
@@ -125,7 +128,7 @@ Huffman::bits_t Huffman::encode(int symbol){
 	//Re-build tree
 	myTreePtr = buildTree(myForest);
 
-	return returnable;  // HOMIE LMAO
+	return returnable;
 }
 
 int Huffman::decode(bool bit) {
