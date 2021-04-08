@@ -19,7 +19,7 @@ void test_encode()
   bits = huff.encode('b');
   assert(bits.size() > CHAR_BIT);
 
-  bits = huff.encode('a');
+  bits = huff.encode('a'); // size should be less than CHAR_BIT bc 'a' is the most important symbol by now
   assert(bits.size() < CHAR_BIT);
 
   bits = huff.encode('b');
