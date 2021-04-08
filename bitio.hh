@@ -6,14 +6,14 @@
 
 class BitIO {
   private:
-    os_;
-    is_;
+    std::ostream* os_;
+    std::istream* is_;
   public:
     // Construct with one of either an input stream or output (the other null)
     BitIO(std::ostream* os, std::istream* is);
 
     // Flushes out any remaining output bits and trailing zeros, if any:
-    ~BitIO();
+    ~BitIO() = default;
 
     BitIO(const BitIO&) = default;
     BitIO(BitIO&&) = default;
