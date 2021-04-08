@@ -37,3 +37,5 @@ CMakeLists.txt
 test_hforest
 test_htree
 test_huffman
+test_hforest
+test_htree

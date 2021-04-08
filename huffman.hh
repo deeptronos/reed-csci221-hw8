@@ -15,6 +15,9 @@ class Huffman {
 	HForest myForest;
 	HTree::tree_ptr_t myTreePtr;
 
+	HTree::tree_ptr_t navNode; // for decode()
+
+
  public:
   // Maximum number of symbols we need to encode (a symbol fits in a char) + EOF
   static const int ALPHABET_SIZE = (1 << CHAR_BIT) + 1;  // (2 ** 8) + 1

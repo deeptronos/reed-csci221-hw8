@@ -3,8 +3,6 @@
 #include "huffman.hh"
 
 
-#include <iostream>
-
 /*The algorithm for encoding a character (symbol) c is summarized as follows:
  * Build a Huffman tree from scratch, given the existing frequency table (see below).
  * Find the path to c in the Huffman tree from the root.
@@ -33,6 +31,18 @@ Huffman::bits_t pathToBits(const HTree::path_t& path){
 		}
 	}
 	return pathBits; //pathBits now contains booleans which correspond to the passed path_t path!
+}
+
+//NOTE: while the logic that bitToDirection() executes is fairly trivial and could have easily been implemented within the methods where it is used, it is declared and implemented as a discrete function here, following pathToBits(), so that I can ensure consistency between the logic of the two functions.
+		// I.E., it ensures that I don't mix-up which bool corresponds to which HTree::Direction.
+
+// Returns the HTree::Direction corresponding to the passed bool bit
+HTree::Direction bitToDirection(bool bit){
+	if(!bit){ // false = 0 = LEFT
+		return HTree::Direction::LEFT;
+	}else{ // true = 1 = RIGHT
+		return HTree::Direction::RIGHT;
+	}
 }
 
 // Creates a forest full of "leaves" (unconnected tree nodes) that have key_'s which correspond to 0 through int size
@@ -118,23 +128,64 @@ Huffman::bits_t Huffman::encode(int symbol){
 		symbolLeaf = symbolLeaf->get_child(direction); // Move symbolLeaf down the tree in that direction.
 	} // Now, symbolLeaf should be at the symbol's leaf!
 
-	 // Increment the leaf's value.
+	 // Increment the leaf's value.     //  THIS CAN BE SIMPLIFIED
 	HTree::value_t symbolValue = symbolLeaf->value_;
-	++symbolValue; // Add 1 to symbolValue // NOTE: will this actually increment the value_t at symbolLeaf->value_? make sure it doesn't!!!
+	++symbolValue;
 	symbolLeaf->setValue(symbolValue);
 
-	//Break tree down into forest
+	//Break tree down into forest.
 	myForest = breakTree(myTreePtr);
-	//Re-build tree
+	//Re-build tree.
 	myTreePtr = buildTree(myForest);
 
 	return returnable;
 }
 
+/*
+ * the algorithm for decoding a single bit b at a time into a symbol works as follows:
+
+    * If this is the first bit in a sequence (Huffman tree not yet computed), build a Huffman tree from scratch, given the existing frequency table (see below), and start from the root node.
+    * Otherwise, start from the previous node you've computed.
+    * Compute the next node as either the left or right child of the current node, depending on the bit value.
+        * If this is an intermediate node (not a leaf), you will return a negative number for a symbol. Otherwise, you're a leaf, pointing to an actual symbol, which you will return.
+    * Eventually, the current node will be a leaf, at which point a real character c will be returned, and you can reset the Huffman tree to nullptr to remember that next bit starts a new sequence. Additionally, increment the frequency table for c.
+    * NOTE: shouldn't we actually *decrement* the frequency table for c? (maybe I'm misunderstanding the function of decode(), but someone explained why decrementing was correct instead of incrementing in a lab, and it made sense!)
+*/
+
+// NOTE: Rather than using the Huffman's tree (myTreePtr) to indicate whether we need to start a new sequence, I'm using an additional navigation pointer (navNode).
+	//  This is because the tree at myTreePtr functions both as a Huffman tree and as our frequency table.
 int Huffman::decode(bool bit) {
-	return bit;
+	if(myForest.size() == 0 && myTreePtr == nullptr){ // If we haven't established a frequency table...
+		myForest    = initSymbolForest(ALPHABET_SIZE); // create a new forest full of symbol nodes with frequencies of 0
+		myTreePtr   = buildTree(myForest); // Build tree.
+
+	}
+	if(navNode == nullptr) { //Base case: this is the first bit in a sequence...
+		navNode     = myTreePtr; // Set navNode to the root of the tree
+
+	}
+	// If navNode != nullptr, it should be at the previous node we've computed.
+
+	navNode = navNode->get_child(bitToDirection(bit));
+
+	if(navNode->key_ == -1){ // If we're at an organization node...
+		return -1;
+
+	}else{ // Otherwise, we're at an actual character (c) leaf!
+		++navNode->value_; // Increment frequency for c.
+		HTree::key_t symbol = navNode->key_; // get and store the character symbol, so that we can return it after we've reset the tree.
+		navNode             = nullptr; // The next bit will start a new sequence.
+
+		//Do these to update our "frequency table" now that we've changed c's frequency:
+		myForest    = breakTree(myTreePtr); //Break tree down into forest.
+		myTreePtr   = buildTree(myForest); //Re-build tree.
+
+		return symbol;
+
+	}
 }
 
+// these are just here rather than making the constructor/destructor = default, because we aren't supposed to alter Huffman's public interface :P
 Huffman::Huffman() {
 
 }
@@ -146,3 +197,5 @@ Huffman::~Huffman() {
 // encode: finds a key _> update the value (++Value) _> break tree _> build tree
 // break_tree - takes a hierarchical tree and turns it into a non-hierarchical forest
 // build_tree - takes a non-hierarchical forest and turns it into a hierarchical tree
+
+
