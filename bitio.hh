@@ -11,8 +11,7 @@ class BitIO {
     std::ostream* os_;
     std::istream* is_;
     std::bitset<8> buffer_;
-    bool buffer_exists;
-    int bit_pos;
+    int pos_; // the position of the current bit in the buffer
   public:
     // Construct with one of either an input stream or output (the other null)
     BitIO(std::ostream* os, std::istream* is);
