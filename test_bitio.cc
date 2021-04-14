@@ -137,6 +137,38 @@ test_100_bits()
   }
 }
 
+//////////////////////////////////////////////////////////////////////////////
+
+void misc_test_bits() {
+  std::stringstream bits;
+  {BitIO bitio(&bits, nullptr);
+  bitio.output_bit(0);
+  bitio.output_bit(1);
+  bitio.output_bit(0);
+  bitio.output_bit(1);
+  bitio.output_bit(1);
+  bitio.output_bit(1);
+  bitio.output_bit(1);
+  bitio.output_bit(0);
+
+  bitio.output_bit(1);
+  bitio.output_bit(1);
+  bitio.output_bit(0);}
+
+  {BitIO bitio(nullptr, &bits);
+  assert(bitio.input_bit() == false);
+  assert(bitio.input_bit() == true);
+  assert(bitio.input_bit() == false);
+  assert(bitio.input_bit() == true);
+  assert(bitio.input_bit() == true);
+  assert(bitio.input_bit() == true);
+  assert(bitio.input_bit() == true);
+  assert(bitio.input_bit() == false);
+
+  assert(bitio.input_bit() == true);
+  assert(bitio.input_bit() == true);
+  assert(bitio.input_bit() == false);}
+}
 
 //////////////////////////////////////////////////////////////////////////////
 int
@@ -147,6 +179,6 @@ main() {
   test_9_bits();
   test_16_bits();
   test_100_bits();
-
+  misc_test_bits();
   return 0;
 }

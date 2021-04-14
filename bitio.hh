@@ -3,17 +3,22 @@
  * Before reading any bits, ensure your input stream still has valid inputs.
  */
 #include <iostream>
+#include <vector>
+#include <bitset>
 
 class BitIO {
   private:
     std::ostream* os_;
     std::istream* is_;
+    std::bitset<8> buffer_;
+    bool buffer_exists;
+    int bit_pos;
   public:
     // Construct with one of either an input stream or output (the other null)
     BitIO(std::ostream* os, std::istream* is);
 
     // Flushes out any remaining output bits and trailing zeros, if any:
-    ~BitIO() = default;
+    ~BitIO();
 
     BitIO(const BitIO&) = default;
     BitIO(BitIO&&) = default;
