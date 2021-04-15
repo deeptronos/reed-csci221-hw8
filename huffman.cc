@@ -185,7 +185,7 @@ int Huffman::decode(bool bit) {
 	}
 }
 
-// these are just here rather than making the constructor/destructor = default, because we aren't supposed to alter Huffman's public interface :P
+// these are just here, rather than making the constructor/destructor = default, because we aren't supposed to alter Huffman's public interface :P
 Huffman::Huffman() {
 
 }
