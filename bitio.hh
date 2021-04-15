@@ -1,9 +1,9 @@
-/*
- * A simple class to perform stream I/O on individual bits.
- * Before reading any bits, ensure your input stream still has valid inputs.
- */
+/*****************************************************************************
+ * A simple class to perform stream I/O on individual bits.                  *
+ * Before reading any bits, ensure your input stream still has valid inputs. *
+ ****************************************************************************/
+
 #include <iostream>
-#include <vector>
 #include <bitset>
 
 class BitIO {
@@ -11,12 +11,13 @@ class BitIO {
     std::ostream* os_;
     std::istream* is_;
     std::bitset<8> buffer_;
-    int pos_; // the position of the current bit in the buffer
+    int pos_; // The position of the current bit in the buffer
+
   public:
     // Construct with one of either an input stream or output (the other null)
     BitIO(std::ostream* os, std::istream* is);
 
-    // Flushes out any remaining output bits and trailing zeros, if any:
+    // Flushes out any remaining output bits, if any:
     ~BitIO();
 
     BitIO(const BitIO&) = default;
