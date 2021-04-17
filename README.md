@@ -32,17 +32,24 @@ The files associated with homework 7 - hforest.hh/.cc, test_hforest.cc, htree.hh
 
 2. **Bit I/O.** Most notably, we used ```std::bitset``` in the implementation of the ```BitIO``` class since it made many of the operations on and manipulations of binary data trivial. For instance, rather than shifting bits and using masks and or bitwise AND operations to find out the values of individual bits, ```std::bitset<N>::test()``` can be used to find the value of a bit at a given position. What's more, ```std::bitset```'s requirement of allocating the number of bits upon construction was not a problem since the ```BitIO``` class either inputs or outputs bytes of data at a time. Hence, we can safely declare the buffer like so: ```std::bitset<8> buffer_;```. To facilitate the conversion between data of types ```std::bitset``` and ```char```, we implemented the function ```bitset_to_char()``` which does exactly as the name suggests. Conversely, to convert from ```char``` to ```std::bitset``` we explicitly casted the ```char``` into an ```unsigned long``` and assigned that to ```buffer_```; this conversion is another example of operations that were made much easier due to our choice in using ```std::bitset```. As for ```BitIO```'s other methods that were declared in ```bitio.hh```, their implementation is explained in detail within ```bitio.cc```.
 
-3. **Encoder/decoder.**
+3. **Encoder/decoder.** Both ```encoder.cc```  and ```decoder.cc``` begin in very similar ways. In both cases, we check whether there are a correct number of arguments provided and whether the given file to read from actually exists. Further, in creating a new file to write to, we construct the file and set modes ```std::ofstream::out``` and ```std::ofstream::trunc``` so that we can write to the file, and if the file already exists, it is emptied and we can overwrite it without bothering about the previous contents of the file. 
+    + In the process of encoding, we take every character in the given input file and encode it with a ```Huffman``` object, outputting the corresponding bit sequence to the output file with a ```BitIO``` object. After doing this for every character in the input file, we finish the encoding process by encoding ```Huffman::HEOF``` and outputting its corresponding bit sequence to the output file as well. We also call the destructor of the ```BitIO``` object to output whatever bits have yet to be outputted. Lastly, we close both files before the program terminates.
+        + On a minor note, we also use the ```output_bits_t()``` to allow us to output a sequence of bits using a ```BitIO``` object. This provides a degree of abstraction and results in less clutter in the encoding process, making it (marginally) easier to read.
+    + In the process of decoding, we call ```Huffman::decode()``` until a nonnegative symbol is found. If said symbol is a valid character, we output it to the plaintext file and continue decoding bits. Otherwise, if said symbol is ```Huffman::HEOF```, then we stop the decoding process since we've reached the end of the file.
+    + Basic usage:
+        + To encode: "./encoder <text_filename>"
+        + To decode: "./decoder <encoded_filename>"
 
 4. **Compression tests.**
 
 |       File name      | Raw file size (bytes) | Compressed file size (bytes) | Decompressed matches original |
 |:--------------------:|:---------------------:|:----------------------------:|:-----------------------------:|
 | ```lorem_ipsum.cc``` |         67,755        |            65,145            |              Yes              |
-|    ```file2.cc```    |                       |                              |                               |
+|    ```file2.txt```   |                       |                              |                               |
 |    ```file3.cc```    |                       |                              |                               |
 |    ```file4.cc```    |                       |                              |                               |
 
 #### Additional Credits:
 + Taylor Blair - Assistance with designing an implementation of adaptive Huffman encoding.
 + Julian Prince - Tip for Huffman::decode() implementation (using HTree::tree_ptr_t navNode - overheard in lab).
++ Eitan (?) - Decoding loop in ```decoder.cc``` sourced from the HW8 Moodle page.

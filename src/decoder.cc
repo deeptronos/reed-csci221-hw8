@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
     std::ofstream plaintext_file(plaintext_filename, std::ofstream::out | std::ofstream::trunc);
     BitIO inp(nullptr, &encoded_file); // To get input from encoded_file
 
-    // Call Huffman::decode() until a symbol is found. If said symbol is a valid character,
+    // Call Huffman::decode() until a nonnegative symbol is found. If said symbol is a valid character,
     // output it to plaintext_file and continue. Otherwise, if said symbol is Huffman::HEOF,
     // then stop (as we've reached the end of the file).
     int symbol = -1;

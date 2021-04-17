@@ -32,6 +32,9 @@ decoder: decoder.o  bitio.o huffman.o hforest.o htree.o
 clean:
 	rm -rf *.gch *.o test_bitio encoder decoder test_hforest test_htree test_huffman
 
+clean_o: # Use "make clean_o" to remove .gch and .o files, leaving output files.
+	rm -rf *.gch *.o
+
 test: all
 	./test_htree
 	./test_hforest
