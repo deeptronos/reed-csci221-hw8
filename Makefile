@@ -20,7 +20,7 @@ test_hforest: test_hforest.o hforest.o
 encoder: encoder.o bitio.o huffman.o hforest.o htree.o
 	$(CXX) $(LDFLAGS) -o $@ $^
 
-decoder: decoder.o  bitio.o huffman.o hforest.o
+decoder: decoder.o  bitio.o huffman.o hforest.o htree.o
 	$(CXX) $(LDFLAGS) -o $@ $^
 
 %.o: %.cc %.hh

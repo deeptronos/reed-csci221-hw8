@@ -36,6 +36,13 @@ The files associated with homework 7 - hforest.hh/.cc, test_hforest.cc, htree.hh
 
 4. **Compression tests.**
 
+|       File name      | Raw file size (bytes) | Compressed file size (bytes) | Decompressed matches original |
+|:--------------------:|:---------------------:|:----------------------------:|:-----------------------------:|
+| ```lorem_ipsum.cc``` |         67,755        |            65,145            |              Yes              |
+|    ```file2.cc```    |                       |                              |                               |
+|    ```file3.cc```    |                       |                              |                               |
+|    ```file4.cc```    |                       |                              |                               |
+
 #### Additional Credits:
 + Taylor Blair - Assistance with designing an implementation of adaptive Huffman encoding.
 + Julian Prince - Tip for Huffman::decode() implementation (using HTree::tree_ptr_t navNode - overheard in lab).
