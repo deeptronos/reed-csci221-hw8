@@ -7,7 +7,6 @@
 
 #include <climits>
 #include <vector>
-
 #include "hforest.hh"
 
 class Huffman {

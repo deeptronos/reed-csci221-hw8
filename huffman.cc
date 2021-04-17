@@ -1,5 +1,5 @@
 #include <memory>
-
+#include <cassert>
 #include "huffman.hh"
 
 
