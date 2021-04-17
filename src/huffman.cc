@@ -1,6 +1,6 @@
 #include <memory>
 #include <cassert>
-#include "huffman.hh"
+#include "../inc/huffman.hh"
 
 
 /*The algorithm for encoding a character (symbol) c is summarized as follows:

@@ -2,7 +2,7 @@
  * test_hforest: A simple unit test for the HForest data structure.
  */
 
-#include "hforest.hh"
+#include "../inc/hforest.hh"
 #include <iostream>
 #include <cassert>
 

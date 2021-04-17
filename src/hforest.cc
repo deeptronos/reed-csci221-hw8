@@ -5,7 +5,7 @@
  */
 #include <iostream>
 #include <algorithm>
-#include "hforest.hh"
+#include "../inc/hforest.hh"
 
 //////////////////////////////////////////////////////////////////////////////
 // Comparator function for std::*_heap

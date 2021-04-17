@@ -1,6 +1,6 @@
 #include <fstream>
-#include "huffman.hh"
-#include "bitio.hh"
+#include "../inc/huffman.hh"
+#include "../inc/bitio.hh"
 
 ///////////////////////////////////////////////////////////////////////////////
 // The main function performs the decoding.

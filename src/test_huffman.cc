@@ -2,7 +2,7 @@
  * test_huffman: test the Huffman class
  */
 
-#include "huffman.hh"
+#include "../inc/huffman.hh"
 #include <iostream>
 #include <cassert>
 #include <climits>

@@ -1,5 +1,5 @@
 #include <stdexcept>
-#include "bitio.hh"
+#include "../inc/bitio.hh"
 
 BitIO::BitIO(std::ostream* os, std::istream* is) {
 

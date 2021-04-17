@@ -3,7 +3,7 @@
  * and a value.
  */
 
-#include "htree.hh"
+#include "../inc/htree.hh"
 
 // Return an optional list of directions from root to a node of a given key.
 // If key not contained in this tree, returns nullptr

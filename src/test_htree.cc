@@ -2,7 +2,7 @@
  * test_tree: A simple unit test for the Tree data structure.
  */
 
-#include "htree.hh"
+#include "../inc/htree.hh"
 #include <cassert>
 
 using namespace std;

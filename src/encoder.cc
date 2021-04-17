@@ -1,6 +1,6 @@
 #include <fstream>
-#include "huffman.hh"
-#include "bitio.hh"
+#include "../inc/huffman.hh"
+#include "../inc/bitio.hh"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Function that outputs a sequence of bits to ostream as defined in BitIO obj
