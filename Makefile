@@ -34,6 +34,9 @@ clean:
 clean_o: # Use "make clean_o" to remove .gch and .o files, leaving output files.
 	rm -rf *.gch *.o
 
+clean_enc_dec: # Use to remove encoded and decoded files.
+	rm -rf *.comp *.comp.plaintext
+
 test: all
 	./test_htree
 	./test_hforest
