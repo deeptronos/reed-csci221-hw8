@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
     while(source_file.good()) {
         char c = source_file.get();
         if(c == -1) { break; } // If get() = -1, it is EOF. Without this condition, random characters are appended to plaintext after decoding.
-        else if(c < -1 || c > 255) { throw std::logic_error("Source file contains non-ASCII characters."); }
+        else if(c < -1) { throw std::logic_error("Source file contains non-ASCII characters."); }
         auto bits = encoder.encode(c);
         output_bits_t(bits, outp);
     }
