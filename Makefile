@@ -29,12 +29,12 @@ decoder: decoder.o  bitio.o huffman.o hforest.o htree.o
 	$(CXX) $(CXXFLAGS) $(OPTFLAGS) -c -o $@ $<
 
 clean:
-	rm -rf *.gch *.o test_bitio encoder decoder test_hforest test_htree test_huffman
+	rm -rf *.gch *.o *.comp *.comp.plaintext test_bitio encoder decoder test_hforest test_htree test_huffman
 
 clean_o: # Use "make clean_o" to remove .gch and .o files, leaving output files.
 	rm -rf *.gch *.o
 
-clean_enc_dec: # Use to remove encoded and decoded files.
+clean_comp: # Use to remove encoded/decoded .comp and .comp.plaintext files.
 	rm -rf *.comp *.comp.plaintext
 
 test: all
