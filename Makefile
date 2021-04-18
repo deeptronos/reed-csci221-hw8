@@ -3,8 +3,7 @@ CXXFLAGS=-Wall -Wextra -pedantic -Werror -std=c++2a -O0 -g
 LDFLAGS=$(CXXFLAGS)
 OBJ=$(SRC:.cc=.o)
 
-vpath %.hh $(CURDIR)/inc
-vpath %.cc $(CURDIR)/src
+VPATH=src:inc
 
 all:  test_bitio test_hforest test_huffman test_htree encoder decoder
 
