@@ -3,8 +3,7 @@ CXXFLAGS=-Wall -Wextra -pedantic -Werror -std=c++2a -O0 -g
 LDFLAGS=$(CXXFLAGS)
 OBJ=$(SRC:.cc=.o)
 
-vpath %.hh $(CURDIR)/inc
-vpath %.cc $(CURDIR)/src
+VPATH=src:inc
 
 all:  test_bitio test_hforest test_huffman test_htree encoder decoder
 
@@ -34,6 +33,9 @@ clean:
 
 clean_o: # Use "make clean_o" to remove .gch and .o files, leaving output files.
 	rm -rf *.gch *.o
+
+clean_enc_dec: # Use to remove encoded and decoded files.
+	rm -rf *.comp *.comp.plaintext
 
 test: all
 	./test_htree
