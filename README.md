@@ -44,10 +44,17 @@ The files associated with homework 7 - hforest.hh/.cc, test_hforest.cc, htree.hh
 
 |       File name      | Raw file size (bytes) | Compressed file size (bytes) | Decompressed matches original |
 |:--------------------:|:---------------------:|:----------------------------:|:-----------------------------:|
-| ```lorem_ipsum.cc``` |         67,755        |            65,145            |              Yes              |
-|    ```file2.txt```   |                       |                              |                               |
-|    ```file3.cc```    |                       |                              |                               |
-|    ```file4.cc```    |                       |                              |                               |
+| ```lorem_ipsum.cc```           |         67,755               |            65,145               |             Yes           |
+| ```matrix_97_draft.txt``` | 178,115 | 211,105 | Yes |
+| ```h.txt``` | 275,616 | 34,477 | Yes|
+| ```d3BFG_Game.h``` | 14,511 | 24,621 | Yes |
+| ```vid2vid_README.md``` | 17,535 | 28,667 | Yes |
+**Descriptions**
+* ```lorem_ipsum.cc``` - 
+* ```matrix_97_draft.txt``` - A text file, a draft of the script for The Matrix (1999). Contains lots of writing, formatted with whitespace to maintain the traditional film script layout. Found on [scifiscripts.com](http://www.scifiscripts.com/scripts/matrix_97_draft.txt)
+* ```h.txt``` - An original text file containing 275,616 "h" characters, and absolutely nothing else. 
+* ```d3BFG_Game.h``` - ```Game.h```, from the Doom 3 BFG GPL source code release [repository on GitHub](https://github.com/id-Software/DOOM-3-BFG/blob/master/neo/d3xp/Game.h). A C++ header file, containing lots of different symbols in C++ syntax.
+* ```vid2vid_README.md``` - The ```README.md``` from NVIDIA's vid2vid [repository on GitHub](https://github.com/NVIDIA/vid2vid). Contains lots of text, along with Markdown-formatting syntax and URLs to image files. 
 
 #### Additional Credits:
 + Taylor Blair - Assistance with designing an implementation of adaptive Huffman encoding.
