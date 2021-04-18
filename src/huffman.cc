@@ -1,5 +1,6 @@
 #include <memory>
 #include <cassert>
+#include <stdexcept>
 #include "../inc/huffman.hh"
 
 
@@ -111,6 +112,9 @@ HTree::tree_ptr_t buildTree(HForest& forest){
 }
 
 Huffman::bits_t Huffman::encode(int symbol){
+	if(symbol < -1 || symbol > 255){
+		throw std::logic_error("Attempted to encode invalid symbol.");
+	}
 	if(myForest.size() == 0 && myTreePtr == nullptr){ // Base case: we have an empty forest, and we haven't assembled a tree
 
 		myForest = initSymbolForest(ALPHABET_SIZE); // create a new forest full of symbol nodes with frequencies of 0
