@@ -48,7 +48,7 @@ The files associated with homework 7 ( ```hforest.hh/.cc```, ```test_hforest.cc`
 | ```d3BFG_Game.h``` | 14,511 | 24,621 | Yes |
 | ```vid2vid_README.md``` | 17,535 | 28,667 | Yes |
 
-**Descriptions**
+**File descriptions.**
 * ```lorem_ipsum.cc``` - A .cc file whose contents were generated at [Lorem Ipsum](https://www.lipsum.com/) with the '\n' characters removed.
 * ```matrix_97_draft.txt``` - A text file, a draft of the script for The Matrix (1999). Contains lots of writing, formatted with whitespace to maintain the traditional film script layout. Found on [scifiscripts.com](http://www.scifiscripts.com/scripts/matrix_97_draft.txt)
 * ```h.txt``` - An original text file containing 275,616 "h" characters, and absolutely nothing else. 
