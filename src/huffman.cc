@@ -112,7 +112,7 @@ HTree::tree_ptr_t buildTree(HForest& forest){
 }
 
 Huffman::bits_t Huffman::encode(int symbol){
-	if(symbol < -1 || symbol > 255){
+	if(symbol < -1){
 		throw std::logic_error("Attempted to encode invalid symbol.");
 	}
 	if(myForest.size() == 0 && myTreePtr == nullptr){ // Base case: we have an empty forest, and we haven't assembled a tree
